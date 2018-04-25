@@ -12,7 +12,20 @@ using std::boolalpha;
 
 namespace Pic10c{
 	class vector{
+	private:
+		int* the_data;
+		size_t the_size;
+		size_t the capacity;
+		static const int INIT_CAP = 10;
 
+		void reserve(size_t new capacity);
+	
+	public:
+		//Big 4
+		vector();
+		vector(const vector&);
+		vector& operator=(const vector&);
+		~vector();
 	
 	}
 }
