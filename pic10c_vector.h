@@ -15,10 +15,10 @@ namespace Pic10c{
 	private:
 		int* the_data;
 		size_t the_size;
-		size_t the capacity;
+		size_t the_capacity;
 		static const int INIT_CAP = 10;
 
-		void reserve(size_t new capacity);
+		void reserve(size_t new_capacity);
 	
 	public:
 		//Big 4
