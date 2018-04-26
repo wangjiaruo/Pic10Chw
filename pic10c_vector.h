@@ -75,3 +75,44 @@ namespace Pic10b {
 			delete old_location;
 		}
 	}
+
+	//Implementation Big 4
+	vector::vector(): the_size(0), the_capacity(INIT_CAP) {
+		the_data = new int[the_capacity];
+	}
+
+	vector::vector(const vector& source): the_size(source.the_size), the_capacity(source.the_capacity) {
+		the_data = new int[the_capacity];
+		// Deep copy of internal array
+		for (int i = 0; i < the_size; ++i) {
+			the_data[i] = source.the_data[i];
+		}
+		cout << "xxx: " << "Copy Constructor..." << endl;
+		cout << "xxxxxxxx: " << "This is the copy constructor :xxxxxxxx" << endl;
+	}
+
+	vector& vector::operator=(const vector& rhs) {
+		if (this != &rhs) {     // Self-assignment?
+								// Release old memory and request more
+			delete[] the_data;
+			the_data = new int[rhs.the_capacity];
+
+			// Shallow copy non-pointers
+			the_size = rhs.the_size;
+			the_capacity = rhs.the_capacity;
+
+			// Deep copy internal array
+			for (int i = 0; i < the_size; ++i)
+				the_data[i] = rhs.the_data[i];
+		}
+		return *this;
+		cout << "xxx: " << "Assignment Operartor..." << endl;
+		cout << "xxxxxxxx: " << "This is the assignment operator :xxxxxxxx" << endl;
+	}
+
+	vector::~vector() {
+		delete[] the_data;
+		cout << "xxx: " << "Destructor..." << endl;
+		cout << "xxxxxxxx: " << "This is the destructor :xxxxxxxx" << endl;
+	}
+	
