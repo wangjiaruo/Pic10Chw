@@ -40,3 +40,38 @@ namespace Pic10b {
 
 	};
 
+	//other member functions implemetation
+	size_t vector::size() const{
+		return the_size;
+	}
+
+	size_t vector::capacity() const{
+		return the_capacity;
+	}
+
+	int vector::operator[](size_t index) const{
+		return the_data[index];
+	}
+
+	void vector::push_back(int new_value) {
+		if(the_size == the_capacity)
+			reserve(the capacity + 1);
+		the_data[the_size++] = new_value;
+	}
+	
+	void vector::reserve(size_t new_capacity) {
+		if (new_capacity > the_capacity) {
+			if (new_capacity <= 2 * the_capacity)
+				new_capacity = 2 * the_capacity;
+			
+			int* old_location = the_data;
+
+			the_data = new int[new_capacity];
+			the_capacity = new_capacity;
+
+			for(size_t i = 0; i < the_size; ++i)
+				the_data[i] = old_location[i];
+
+			delete old_location;
+		}
+	}
