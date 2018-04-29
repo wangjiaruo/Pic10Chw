@@ -93,7 +93,7 @@ namespace Pic10b {
 
 	vector& vector::operator=(const vector& rhs) {
 		if (this != &rhs) {     // Self-assignment?
-								// Release old memory and request more
+			// Release old memory and request more
 			delete[] the_data;
 			the_data = new int[rhs.the_capacity];
 
@@ -115,4 +115,15 @@ namespace Pic10b {
 		cout << "xxx: " << "Destructor..." << endl;
 		cout << "xxxxxxxx: " << "This is the destructor :xxxxxxxx" << endl;
 	}
+
+	//Other member Operator overloading
+	//template<typename T>
+	vector& vector::operator+=(const vector&rhs) {
+		if ((*this).the_size == rhs.the_size) {
+			for (int i = 0; i < rhs.size(); ++i)
+				the_data[i] += rhs.the_data[i];
+		}
+		return *this;
+	}
+}
 	
