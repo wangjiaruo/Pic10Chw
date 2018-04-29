@@ -40,3 +40,122 @@ namespace Pic10b {
 
 	};
 
+	//other member functions implemetation
+	size_t vector::size() const{
+		return the_size;
+	}
+
+	size_t vector::capacity() const{
+		return the_capacity;
+	}
+
+	int vector::operator[](size_t index) const{
+		return the_data[index];
+	}
+
+	void vector::push_back(int new_value) {
+		if(the_size == the_capacity)
+			reserve(the capacity + 1);
+		the_data[the_size++] = new_value;
+	}
+	
+	void vector::reserve(size_t new_capacity) {
+		if (new_capacity > the_capacity) {
+			if (new_capacity <= 2 * the_capacity)
+				new_capacity = 2 * the_capacity;
+			
+			int* old_location = the_data;
+
+			the_data = new int[new_capacity];
+			the_capacity = new_capacity;
+
+			for(size_t i = 0; i < the_size; ++i)
+				the_data[i] = old_location[i];
+
+			delete old_location;
+		}
+	}
+
+	//Implementation Big 4
+	//Constructor
+	vector::vector(): the_size(0), the_capacity(INIT_CAP) {
+		the_data = new int[the_capacity];
+	}
+
+	//Copy constructor
+	vector::vector(const vector& source): the_size(source.the_size), the_capacity(source.the_capacity) {
+		the_data = new int[the_capacity];
+		// Deep copy of internal array
+		for (int i = 0; i < the_size; ++i) {
+			the_data[i] = source.the_data[i];
+		}
+		cout << "xxx: " << "Copy Constructor..." << endl;
+		cout << "xxxxxxxx: " << "This is the copy constructor :xxxxxxxx" << endl;
+	}
+	
+	//Assignment operator
+	vector& vector::operator=(const vector& rhs) {
+		if (this != &rhs) {     // Self-assignment?
+			// Release old memory and request more
+			delete[] the_data;
+			the_data = new int[rhs.the_capacity];
+
+			// Shallow copy non-pointers
+			the_size = rhs.the_size;
+			the_capacity = rhs.the_capacity;
+
+			// Deep copy internal array
+			for (int i = 0; i < the_size; ++i)
+				the_data[i] = rhs.the_data[i];
+		}
+		return *this;
+		cout << "xxx: " << "Assignment Operartor..." << endl;
+		cout << "xxxxxxxx: " << "This is the assignment operator :xxxxxxxx" << endl;
+	}
+	
+	//Destructor
+	vector::~vector() {
+		delete[] the_data;
+		cout << "xxx: " << "Destructor..." << endl;
+		cout << "xxxxxxxx: " << "This is the destructor :xxxxxxxx" << endl;
+	}
+
+	//Other Operator overloading
+	vector& vector::operator+=(const vector&rhs) {
+		if ((*this).the_size == rhs.the_size) {
+			for (int i = 0; i < rhs.size(); ++i)
+				the_data[i] += rhs.the_data[i];
+		}
+		return *this;
+	}
+}
+
+
+template<typename T>
+std::ostream& operator<<(std::ostream& out, const Pic10b::vector<T>& v) {
+	for (size_t i = 0; i < v.size(); ++i)
+		out << v[i] << ' ';
+	return out;
+}
+
+
+//non-member Operator overloading
+template<typename T>
+Pic10c::vector<T> operator*(const Pic10b::vector<T>& v, int x) {
+	Pic10b::vector<T> w;
+	for (size_t i = 0; i < v.capacity(); ++i) {
+		w[i] = x*v[i];
+	}
+	return w;
+}
+
+template<typename T>
+Pic10c::vector<T> operator+(const Pic10b::vector<T>& lhs,const Pic10b::vector<T>& rhs) {
+	vector<T> w;
+	if (lhs.size() == rhs.size()) {
+		for (size_t i = 0; i < rhs.size(); ++i)
+			w[i] = lhs[i] + rhs[i];
+	}
+	return w;
+}
+
