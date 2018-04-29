@@ -39,4 +39,24 @@ namespace Pic10b {
 		vector& operator+=(const vector& rhs);
 
 	};
+}
 
+//non-member Operator overloading
+template<typename T>
+Pic10c::vector<T> operator*(const Pic10b::vector<T>& v, int x) {
+	Pic10b::vector<T> w;
+	for (size_t i = 0; i < v.capacity(); ++i) {
+		w[i] = x*v[i];
+	}
+	return w;
+}
+
+template<typename T>
+Pic10c::vector<T> operator+(const Pic10b::vector<T>& lhs,const Pic10b::vector<T>& rhs) {
+	vector<T> w;
+	if (lhs.size() == rhs.size()) {
+		for (size_t i = 0; i < rhs.size(); ++i)
+			w[i] = lhs[i] + rhs[i];
+	}
+	return w;
+}
