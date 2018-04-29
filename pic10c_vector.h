@@ -77,10 +77,12 @@ namespace Pic10b {
 	}
 
 	//Implementation Big 4
+	//Constructor
 	vector::vector(): the_size(0), the_capacity(INIT_CAP) {
 		the_data = new int[the_capacity];
 	}
 
+	//Copy constructor
 	vector::vector(const vector& source): the_size(source.the_size), the_capacity(source.the_capacity) {
 		the_data = new int[the_capacity];
 		// Deep copy of internal array
@@ -90,7 +92,8 @@ namespace Pic10b {
 		cout << "xxx: " << "Copy Constructor..." << endl;
 		cout << "xxxxxxxx: " << "This is the copy constructor :xxxxxxxx" << endl;
 	}
-
+	
+	//Assignment operator
 	vector& vector::operator=(const vector& rhs) {
 		if (this != &rhs) {     // Self-assignment?
 			// Release old memory and request more
@@ -109,15 +112,15 @@ namespace Pic10b {
 		cout << "xxx: " << "Assignment Operartor..." << endl;
 		cout << "xxxxxxxx: " << "This is the assignment operator :xxxxxxxx" << endl;
 	}
-
+	
+	//Destructor
 	vector::~vector() {
 		delete[] the_data;
 		cout << "xxx: " << "Destructor..." << endl;
 		cout << "xxxxxxxx: " << "This is the destructor :xxxxxxxx" << endl;
 	}
 
-	//Other member Operator overloading
-	//template<typename T>
+	//Other Operator overloading
 	vector& vector::operator+=(const vector&rhs) {
 		if ((*this).the_size == rhs.the_size) {
 			for (int i = 0; i < rhs.size(); ++i)
