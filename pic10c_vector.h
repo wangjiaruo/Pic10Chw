@@ -10,7 +10,7 @@ using std::string;
 using std::sqrt;
 using std::boolalpha;
 
-namespace Pic10b {
+namespace Pic10c{
 	template <typename T>
 	class vector {
 
@@ -171,7 +171,7 @@ namespace Pic10b {
 //********************non-member Operator overloading********************
 //<<for int and double
 template<typename T>
-std::ostream& operator<<(std::ostream& out, const Pic10b::vector<T>& v) {
+std::ostream& operator<<(std::ostream& out, const Pic10c::vector<T>& v) {
 	out << "{";
 	for (size_t i = 0; i < v.size()-1; ++i)
 		out << v[i] <<", ";
@@ -181,7 +181,7 @@ std::ostream& operator<<(std::ostream& out, const Pic10b::vector<T>& v) {
 }
 
 //<<for string
-std::ostream& operator<<(std::ostream& out, const Pic10b::vector<string>& v) {
+std::ostream& operator<<(std::ostream& out, const Pic10c::vector<string>& v) {
 	out << "[ ";
 	for (size_t i = 0; i < v.size() - 1; ++i)
 		out << v[i] << ", ";
@@ -192,12 +192,12 @@ std::ostream& operator<<(std::ostream& out, const Pic10b::vector<string>& v) {
 
 //int||double multiply vector
 template<typename T>
-Pic10b::vector<T> operator*(int x, Pic10b::vector<T>& v) {
+Pic10b::vector<T> operator*(int x, Pic10c::vector<T>& v) {
 	return v*x;
 }
 
 //string "multiplies" vector<string>:this function add to front of  each element in the vector<string>
-Pic10b::vector<string> operator*(string s, Pic10b::vector<string>v) {
+Pic10b::vector<string> operator*(string s, Pic10c::vector<string>v) {
 	for (size_t i = 0; i < s.size(); ++i)
 		v[i] = s + " " + v[i];
 	return v;
@@ -205,7 +205,7 @@ Pic10b::vector<string> operator*(string s, Pic10b::vector<string>v) {
 
 //addtion for vector<int>||vector<double>
 template<typename T>
-Pic10b::vector<T> operator+(const Pic10b::vector<T>& lhs, const Pic10b::vector<T>& rhs) {
+Pic10b::vector<T> operator+(const Pic10c::vector<T>& lhs, const Pic10c::vector<T>& rhs) {
 	vector<T> clone(lhs);
 	if (lhs.size() == rhs.size()) {
 		for (size_t i = 0; i < rhs.size(); ++i)
@@ -216,7 +216,7 @@ Pic10b::vector<T> operator+(const Pic10b::vector<T>& lhs, const Pic10b::vector<T
 
 //*overloaded for dot product
 template<typename T>
-T operator*(const Pic10b::vector<T>& v1, const Pic10b::vector<T>& v2) {
+T operator*(const Pic10c::vector<T>& v1, const Pic10c::vector<T>& v2) {
 	T sum=0;
 	if (v1.size() == v2.size()) {
 		for (size_t i = 0; i < v1.size(); ++i)
@@ -227,28 +227,28 @@ T operator*(const Pic10b::vector<T>& v1, const Pic10b::vector<T>& v2) {
 
 //comparison operators for vector<int> vector <double> 
 template<typename T>
-bool operator<(const Pic10b::vector<T>& v1, const Pic10b::vector<T>& v2) {
+bool operator<(const Pic10c::vector<T>& v1, const Pic10c::vector<T>& v2) {
 	if (sqrt(v1*v1) < sqrt(v2*v2))
 		return true;
 	return false;
 }
 
 template<typename T>
-bool operator>(const Pic10b::vector<T>& v1, const Pic10b::vector<T>& v2) {
+bool operator>(const Pic10c::vector<T>& v1, const Pic10c::vector<T>& v2) {
 	if (v2<v1)
 		return true;
 	return false;
 }
 
 template<typename T>
-bool operator>=(const Pic10b::vector<T>& v1, const Pic10b::vector<T>& v2) {
+bool operator>=(const Pic10c::vector<T>& v1, const Pic10c::vector<T>& v2) {
 	if (!(v1<v2))
 		return true;
 	return false;
 }
 
 template<typename T>
-bool operator<=(const Pic10b::vector<T>& v1, const Pic10b::vector<T>& v2) {
+bool operator<=(const Pic10c::vector<T>& v1, const Pic10c::vector<T>& v2) {
 	if (!(v1>v2))
 		return true;
 	return false;
@@ -256,7 +256,7 @@ bool operator<=(const Pic10b::vector<T>& v1, const Pic10b::vector<T>& v2) {
 
 //comparison operators for vector<int> vector <double> vector<string>
 template<typename T>
-bool operator==(const Pic10b::vector<T>& v1, const Pic10b::vector<T>& v2) {
+bool operator==(const Pic10c::vector<T>& v1, const Pic10c::vector<T>& v2) {
 	if (v1.size() == v2.size()) {
 		for (size_t i = 0; i < v1.size(); ++i)
 			if (v1[i] != v2[i])
@@ -267,6 +267,6 @@ bool operator==(const Pic10b::vector<T>& v1, const Pic10b::vector<T>& v2) {
 }
 
 template<typename T>
-bool operator!=(const Pic10b::vector<T>& v1, const Pic10b::vector<T>& v2) {
+bool operator!=(const Pic10c::vector<T>& v1, const Pic10c::vector<T>& v2) {
 	return(!(v1 == v2));
 }
