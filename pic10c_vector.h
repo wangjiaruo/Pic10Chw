@@ -8,10 +8,9 @@ using std::cout;
 using std::endl;
 using std::string;
 using std::sqrt;
-using std::sqrt;
 using std::boolalpha;
 
-namespace Pic10b {
+namespace Pic10c {
 	class vector {
 	private:
 		int* the_data;
@@ -49,13 +48,17 @@ namespace Pic10b {
 		return the_capacity;
 	}
 
+	int& vector::operator[](size_t index) {
+		return the_data[index];
+	}
+
 	int vector::operator[](size_t index) const{
 		return the_data[index];
 	}
 
 	void vector::push_back(int new_value) {
 		if(the_size == the_capacity)
-			reserve(the capacity + 1);
+			reserve(the_capacity + 1);
 		the_data[the_size++] = new_value;
 	}
 	
@@ -142,7 +145,7 @@ std::ostream& operator<<(std::ostream& out, const Pic10b::vector<T>& v) {
 //non-member Operator overloading
 template<typename T>
 Pic10c::vector<T> operator*(const Pic10b::vector<T>& v, int x) {
-	Pic10b::vector<T> w;
+	Pic10c::vector<T> w;
 	for (size_t i = 0; i < v.capacity(); ++i) {
 		w[i] = x*v[i];
 	}
