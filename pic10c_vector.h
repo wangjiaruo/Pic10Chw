@@ -1,8 +1,8 @@
 #pragma once
 #include<iostream>
 #include <iomanip>           
-#include <string>
-#include <cmath>
+#include <string>            
+#include <cmath>            
 
 using std::cout;
 using std::endl;
@@ -10,10 +10,12 @@ using std::string;
 using std::sqrt;
 using std::boolalpha;
 
-namespace Pic10c {
+namespace Pic10b {
+	template <typename T>
 	class vector {
+
 	private:
-		int* the_data;
+		T* the_data;
 		size_t the_size;
 		size_t the_capacity;
 		static const int INIT_CAP = 10;
@@ -23,85 +25,51 @@ namespace Pic10c {
 	public:
 		//Big 4
 		vector();
-		vector(const vector&);
-		vector& operator=(const vector&);
+		vector(const vector<T>&);
+		vector& operator=(const vector<T>&);
 		~vector();
-		
+
+
 		//Other member functions
 		size_t size() const;
 		size_t capacity() const;
-		int& operator[](size_t index);
-		int operator[](size_t index) const;
-		void push_back(int new_value);
+		T& operator[](size_t index);
+		T operator[](size_t index) const;
+		void push_back(T new_value);
+
 
 		//Operator overloading
-		vector& operator+=(const vector& rhs);
+		vector operator*(T x);
+		vector& operator+=(const vector<T>& rhs);
 
 	};
 
-	//other member functions implemetation
-	size_t vector::size() const{
-		return the_size;
+
+
+	//********************Implementation Big 4********************
+	template<typename T>
+	vector<T>::vector<T>() : the_size(0), the_capacity(INIT_CAP) {
+		the_data = new T[the_capacity];
+		cout << "xxx: " << "Default Constructor called" << endl;
 	}
 
-	size_t vector::capacity() const{
-		return the_capacity;
-	}
-
-	int& vector::operator[](size_t index) {
-		return the_data[index];
-	}
-
-	int vector::operator[](size_t index) const{
-		return the_data[index];
-	}
-
-	void vector::push_back(int new_value) {
-		if(the_size == the_capacity)
-			reserve(the_capacity + 1);
-		the_data[the_size++] = new_value;
-	}
-	
-	void vector::reserve(size_t new_capacity) {
-		if (new_capacity > the_capacity) {
-			if (new_capacity <= 2 * the_capacity)
-				new_capacity = 2 * the_capacity;
-			
-			int* old_location = the_data;
-
-			the_data = new int[new_capacity];
-			the_capacity = new_capacity;
-
-			for(size_t i = 0; i < the_size; ++i)
-				the_data[i] = old_location[i];
-
-			delete old_location;
-		}
-	}
-
-	//Implementation Big 4
-	//Constructor
-	vector::vector(): the_size(0), the_capacity(INIT_CAP) {
-		the_data = new int[the_capacity];
-	}
-
-	//Copy constructor
-	vector::vector(const vector& source): the_size(source.the_size), the_capacity(source.the_capacity) {
-		the_data = new int[the_capacity];
+	template<typename T>
+	vector<T>::vector<T>(const vector& source) : the_size(source.the_size), the_capacity(source.the_capacity) {
+		the_data = new T[the_capacity];
 		// Deep copy of internal array
 		for (int i = 0; i < the_size; ++i) {
 			the_data[i] = source.the_data[i];
 		}
-		cout << "xxx: " << "Copy Constructor..." << endl;
-		cout << "xxxxxxxx: " << "This is the copy constructor :xxxxxxxx" << endl;
+		cout << "xxx: " << "Copy Constructor called" << endl;
+
 	}
-	
-	//Assignment operator
-	vector& vector::operator=(const vector& rhs) {
+
+	template<typename T>
+	vector<T>& vector<T>::operator=(const vector& rhs) {
 		if (this != &rhs) {     // Self-assignment?
-			// Release old memory and request more
+								// Release old memory and request more 
 			delete[] the_data;
-			the_data = new int[rhs.the_capacity];
+			the_data = new T[rhs.the_capacity];
 
 			// Shallow copy non-pointers
 			the_size = rhs.the_size;
@@ -111,54 +79,194 @@ namespace Pic10c {
 			for (int i = 0; i < the_size; ++i)
 				the_data[i] = rhs.the_data[i];
 		}
+		cout << "xxx: " << "Assignment Operartor called" << endl;
 		return *this;
-		cout << "xxx: " << "Assignment Operartor..." << endl;
-		cout << "xxxxxxxx: " << "This is the assignment operator :xxxxxxxx" << endl;
-	}
-	
-	//Destructor
-	vector::~vector() {
-		delete[] the_data;
-		cout << "xxx: " << "Destructor..." << endl;
-		cout << "xxxxxxxx: " << "This is the destructor :xxxxxxxx" << endl;
+
 	}
 
-	//Other Operator overloading
-	vector& vector::operator+=(const vector&rhs) {
+	template<typename T>
+	vector<T>::~vector<T>() {
+		delete[] the_data;
+		cout << "xxx: " << "Destructor called" << endl;
+
+	}
+
+
+
+	//********************Other member functions********************
+	template<typename T>
+	size_t vector<T>::size() const {
+		return the_size;
+	}
+
+	template<typename T>
+	size_t vector<T>::capacity() const {
+		return the_capacity;
+	}
+
+	template<typename T>
+	T& vector<T>::operator[](size_t index) {
+		return the_data[index];
+	}
+
+	template<typename T>
+	T vector<T>::operator[](size_t index) const {
+		return the_data[index];
+	}
+
+	template<typename T>
+	void vector<T>::push_back(T new_value) {
+		if (the_size == the_capacity)
+			reserve(the_capacity + 1);     // `the_data` is reassigned
+
+		the_data[the_size++] = new_value;
+	}
+
+	template<typename T>
+	void vector<T>::reserve(size_t new_capacity) {
+		if (new_capacity > the_capacity) {
+			if (new_capacity <= 2 * the_capacity)
+				new_capacity = 2 * the_capacity;
+
+			T* old_location = the_data;
+
+			the_data = new T[new_capacity];
+			the_capacity = new_capacity;
+
+			for (size_t i = 0; i < the_size; ++i)
+				the_data[i] = old_location[i];
+
+			delete old_location;
+		}
+	}
+
+
+
+
+	//********************Other member Operator overloading********************
+	template<typename T>
+	vector<T>& vector<T>::operator+=(const vector<T>&rhs) {
 		if ((*this).the_size == rhs.the_size) {
 			for (int i = 0; i < rhs.size(); ++i)
 				the_data[i] += rhs.the_data[i];
 		}
 		return *this;
 	}
+
+	template<typename T>
+	vector<T> vector<T>:: operator*(T x) {
+		for (size_t i = 0; i < the_size; ++i)
+			the_data[i]*= x;
+		return *this;
+	}
+
+	vector<string> vector<string>:: operator*(string x) {
+		for (size_t i = 0; i < the_size; ++i)
+			the_data[i] += " "+x;
+		return *this;
+	}
 }
 
 
+//********************non-member Operator overloading********************
+//<<for int and double
 template<typename T>
 std::ostream& operator<<(std::ostream& out, const Pic10b::vector<T>& v) {
-	for (size_t i = 0; i < v.size(); ++i)
-		out << v[i] << ' ';
+	out << "{";
+	for (size_t i = 0; i < v.size()-1; ++i)
+		out << v[i] <<", ";
+	out << v[v.size() - 1];
+	out << "}";
 	return out;
 }
 
-
-//non-member Operator overloading
-template<typename T>
-Pic10c::vector<T> operator*(const Pic10b::vector<T>& v, int x) {
-	Pic10c::vector<T> w;
-	for (size_t i = 0; i < v.capacity(); ++i) {
-		w[i] = x*v[i];
-	}
-	return w;
+//<<for string
+std::ostream& operator<<(std::ostream& out, const Pic10b::vector<string>& v) {
+	out << "[ ";
+	for (size_t i = 0; i < v.size() - 1; ++i)
+		out << v[i] << ", ";
+	out << v[v.size() - 1];
+	out << " ]";
+	return out;
 }
 
+//int||double multiply vector
 template<typename T>
-Pic10c::vector<T> operator+(const Pic10b::vector<T>& lhs,const Pic10b::vector<T>& rhs) {
-	vector<T> w;
+Pic10b::vector<T> operator*(int x, Pic10b::vector<T>& v) {
+	return v*x;
+}
+
+//string "multiplies" vector<string>:this function add to front of  each element in the vector<string>
+Pic10b::vector<string> operator*(string s, Pic10b::vector<string>v) {
+	for (size_t i = 0; i < s.size(); ++i)
+		v[i] = s + " " + v[i];
+	return v;
+}
+
+//addtion for vector<int>||vector<double>
+template<typename T>
+Pic10b::vector<T> operator+(const Pic10b::vector<T>& lhs, const Pic10b::vector<T>& rhs) {
+	vector<T> clone(lhs);
 	if (lhs.size() == rhs.size()) {
 		for (size_t i = 0; i < rhs.size(); ++i)
-			w[i] = lhs[i] + rhs[i];
+			clone[i] = lhs[i] + rhs[i];
 	}
-	return w;
+	return clone;
 }
 
+//*overloaded for dot product
+template<typename T>
+T operator*(const Pic10b::vector<T>& v1, const Pic10b::vector<T>& v2) {
+	T sum=0;
+	if (v1.size() == v2.size()) {
+		for (size_t i = 0; i < v1.size(); ++i)
+			sum += v1[i] * v2[i];
+		return sum;
+	}
+}
+
+//comparison operators for vector<int> vector <double> 
+template<typename T>
+bool operator<(const Pic10b::vector<T>& v1, const Pic10b::vector<T>& v2) {
+	if (sqrt(v1*v1) < sqrt(v2*v2))
+		return true;
+	return false;
+}
+
+template<typename T>
+bool operator>(const Pic10b::vector<T>& v1, const Pic10b::vector<T>& v2) {
+	if (v2<v1)
+		return true;
+	return false;
+}
+
+template<typename T>
+bool operator>=(const Pic10b::vector<T>& v1, const Pic10b::vector<T>& v2) {
+	if (!(v1<v2))
+		return true;
+	return false;
+}
+
+template<typename T>
+bool operator<=(const Pic10b::vector<T>& v1, const Pic10b::vector<T>& v2) {
+	if (!(v1>v2))
+		return true;
+	return false;
+}
+
+//comparison operators for vector<int> vector <double> vector<string>
+template<typename T>
+bool operator==(const Pic10b::vector<T>& v1, const Pic10b::vector<T>& v2) {
+	if (v1.size() == v2.size()) {
+		for (size_t i = 0; i < v1.size(); ++i)
+			if (v1[i] != v2[i])
+				return false;
+		return true;
+	}
+	return false;
+}
+
+template<typename T>
+bool operator!=(const Pic10b::vector<T>& v1, const Pic10b::vector<T>& v2) {
+	return(!(v1 == v2));
+}
